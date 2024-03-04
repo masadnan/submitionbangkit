@@ -31,41 +31,61 @@ selected_tab = st.sidebar.radio("Pilih Menu", ["Hubungan", "Persentase Tipe Pemb
 if selected_tab == "Hubungan":
     st.subheader("Hubungan")
 
-    # Melihat korelasi antara price dan freight_value
-    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(24, 6))
-    sns.regplot(x=alldata_df['product_weight_g'], y=alldata_df['freight_value'], ax=ax)
-    st.pyplot(fig)
+    #melihat korelasi antara price dan freight_value
+    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(24, 6)) #bikin kanvasnya dulu
+    colors = ["#BBF90F", "#E6E6FA", "#E6E6FA", "#E6E6FA", "#E6E6FA"]
+
+    sns.regplot(x=alldata_df['product_weight_g'], y=alldata_df['freight_value'])
+    plt.show()
+
 
     # Membuat heatmap untuk matriks korelasi
     selected_columns = alldata_df[['freight_value','product_weight_g']]
+    selected_columns.head(15)
     correlation_mat = selected_columns.corr()
     sns.heatmap(correlation_mat, annot=True, cmap='GnBu', fmt='.2f', linewidths=0.1)
-    st.pyplot()
+    plt.title('Matriks Korelasi')
+    plt.show()
 
 # Tab "Persentase Tipe Pembayaran"
 elif selected_tab == "Persentase Tipe Pembayaran":
     st.subheader("Persentase Tipe Pembayaran")
 
-    # Menentukan persentase tipe payment yang digunakan
+    #menentukan persentase tipe payment yang digunakan
+    count_payment_type_df = alldata_df.groupby("payment_type").order_id.count().sort_values(ascending=False).reset_index()
+
+    #membuat diagram lingkaran proporsi penggunaan tipe payment
     payment_count = alldata_df['payment_type'].value_counts()
+    colors = sns.color_palette("deep", len(payment_count))
+    explode = (0.1, 0, 0, 0)
+
     plt.pie(
         x=payment_count,
         labels=payment_count.index,
         autopct='%1.1f%%',
-        colors=sns.color_palette("deep", len(payment_count)),
-        explode=(0.1, 0, 0, 0)
+        colors=colors,
+        explode=explode
     )
-    st.pyplot()
+    plt.title('Persentase Tipe Payment yang Digunakan')
+
+    plt.show()
 
 # Tab "Review Customer"
 elif selected_tab == "Review Customer":
     st.subheader("Review Customer")
 
-    # Menentukan proporsi penilaian customer
+    #menentukan proporsi penilaian customer
+    sum_order_items_df = alldata_df.groupby("review_score").order_id.count().sort_values(ascending=False).reset_index()
+    sum_order_items_df.head(15)
+
+    #membuat diagram batang untuk proporsi penilaian
     bycategory_df = alldata_df.groupby(by=["review_score"]).order_id.nunique().reset_index()
-    bycategory_df.rename(columns={"order_id": "cust_count"}, inplace=True)
+    bycategory_df.rename(columns={
+        "order_id": "cust_count"
+    }, inplace=True)
 
     plt.figure(figsize=(10, 5))
+
     sns.barplot(
         y="cust_count",
         x="review_score",
@@ -73,6 +93,10 @@ elif selected_tab == "Review Customer":
         data=bycategory_df.sort_values(by="cust_count", ascending=False),
         palette="viridis", legend=False
     )
-    st.pyplot()
+    plt.title("Proporsi Penilaian Customer", loc="center", fontsize=15)
+    plt.ylabel(None)
+    plt.xlabel(None)
+    plt.tick_params(axis='x', labelsize=12)
+    plt.show()
 
 st.caption("Copyright by AdnanSyawal")
