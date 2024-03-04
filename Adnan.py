@@ -50,7 +50,7 @@ if selected_tab == "Hubungan":
     colors = ["#BBF90F", "#E6E6FA", "#E6E6FA", "#E6E6FA", "#E6E6FA"]
 
     sns.regplot(x=alldata_df['product_weight_g'], y=alldata_df['freight_value'])
-    st.pyplot() # Menampilkan plot di Streamlit
+    st.pyplot(fig) # Menampilkan plot di Streamlit
 
     # Membuat plot bar untuk rating produk
     selected_columns = alldata_df[['freight_value','product_weight_g']]
