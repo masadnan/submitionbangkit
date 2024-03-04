@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # Membaca data CSV dari GitHub
-alldata_df = pd.read_csv("https://raw.githubusercontent.com/masadnan/submition/main/dashboard/all_data_ecommerce.csv")
+alldata_df = pd.read_csv("https://raw.githubusercontent.com/masadnan/submitionbangkit/main/all_data_ecommerce.csv")
 
 # Header Streamlit dengan judul menarik
 st.title('🛒 E-Commerce Dashboard')
@@ -58,7 +58,6 @@ if selected_tab == "Hubungan":
     correlation_mat = selected_columns.corr()
     sns.heatmap(correlation_mat, annot=True, cmap='GnBu', fmt='.2f', linewidths=0.1)
     plt.title('Matriks Korelasi')
-    st.pyplot() # Menampilkan plot di Streamlit
 
 
 # Tab "Produk Terjual"
@@ -84,7 +83,6 @@ elif selected_tab == "Persentase Tipe Pembayaran":
     plt.title('Persentase Tipe Payment yang Digunakan')
 
     plt.show()
-    st.pyplot() # Menampilkan plot di Streamlit
 
 # Tab "Review Customer"
 elif selected_tab == "Review Customer":
@@ -114,6 +112,5 @@ elif selected_tab == "Review Customer":
     plt.xlabel(None)
     plt.tick_params(axis='x', labelsize=12)
     plt.show()
-    st.pyplot() # Menampilkan plot di Streamlit
 
 st.caption("Copyright by AdnanSyawal")
