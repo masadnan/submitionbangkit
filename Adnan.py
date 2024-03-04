@@ -50,7 +50,7 @@ if selected_tab == "Hubungan":
     colors = ["#BBF90F", "#E6E6FA", "#E6E6FA", "#E6E6FA", "#E6E6FA"]
 
     sns.regplot(x=alldata_df['product_weight_g'], y=alldata_df['freight_value'])
-    st.pyplot() # Menampilkan plot di Streamlit
+    plt.show()
 
     # Membuat plot bar untuk rating produk
     selected_columns = alldata_df[['freight_value','product_weight_g']]
@@ -58,7 +58,7 @@ if selected_tab == "Hubungan":
     correlation_mat = selected_columns.corr()
     sns.heatmap(correlation_mat, annot=True, cmap='GnBu', fmt='.2f', linewidths=0.1)
     plt.title('Matriks Korelasi')
-
+    plt.show()
 
 # Tab "Tipe Payment"
 elif selected_tab == "Persentase Tipe Pembayaran":
@@ -81,7 +81,6 @@ elif selected_tab == "Persentase Tipe Pembayaran":
         explode=explode
     )
     plt.title('Persentase Tipe Payment yang Digunakan')
-
     plt.show()
 
 # Tab "Review Customer"
@@ -95,7 +94,7 @@ elif selected_tab == "Review Customer":
     #membuat diagram batang untuk proporsi penilaian
     bycategory_df = alldata_df.groupby(by=["review_score"]).order_id.nunique().reset_index()
     bycategory_df.rename(columns={
-    "order_id": "cust_count"
+        "order_id": "cust_count"
     }, inplace=True)
 
     plt.figure(figsize=(10, 5))
