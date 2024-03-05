@@ -82,10 +82,15 @@ elif selected_tab == "Persentase Tipe Pembayaran":
 elif selected_tab == "Review Customer":
     st.subheader("Review Customer")
 
-    # Menentukan proporsi penilaian customer
-    bycategory_df = alldata_df.groupby(by=["review_score"]).order_id.nunique().reset_index()
-    bycategory_df.rename(columns={"order_id": "cust_count"}, inplace=True)
+    #menentukan proporsi penilaian customer
+    sum_order_items_df = alldata_df.groupby("review_score").order_id.count().sort_values(ascending=False).reset_index()
+    sum_order_items_df.head(15)
 
+    #membuat diagram batang untuk proporsi penilaian
+    bycategory_df = alldata_df.groupby(by=["review_score"]).order_id.nunique().reset_index()
+    bycategory_df.rename(columns={"order_id": "cust_count"}, inplace=True))
+
+    #membuat plot
     plt.figure(figsize=(10, 5))
     sns.barplot(
         y="cust_count",
@@ -94,6 +99,12 @@ elif selected_tab == "Review Customer":
         data=bycategory_df.sort_values(by="cust_count", ascending=False),
         palette="viridis", legend=False
     )
+    plt.title("Proporsi Penilaian Customer", loc="center", fontsize=15)
+    plt.ylabel(None)
+    plt.xlabel(None)
+    plt.tick_params(axis='x', labelsize=12)
+
+    #menampilkan visualisasi
     st.pyplot()
 
-st.caption("Copyright by AdnanSyawal")
+    st.caption("Copyright by AdnanSyawal")
