@@ -88,7 +88,7 @@ elif selected_tab == "Review Customer":
 
     #membuat diagram batang untuk proporsi penilaian
     bycategory_df = alldata_df.groupby(by=["review_score"]).order_id.nunique().reset_index()
-    bycategory_df.rename(columns={"order_id": "cust_count"}, inplace=True))
+    bycategory_df.rename(columns={"order_id": "cust_count"}, inplace=True)
 
     #membuat plot
     plt.figure(figsize=(10, 5))
