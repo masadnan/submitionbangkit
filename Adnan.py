@@ -31,16 +31,26 @@ selected_tab = st.sidebar.radio("Pilih Menu", ["Hubungan", "Persentase Tipe Pemb
 if selected_tab == "Hubungan":
     st.subheader("Hubungan")
 
-    # Melihat korelasi antara price dan freight_value
-    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(24, 6))
-    sns.regplot(x=alldata_df['product_weight_g'], y=alldata_df['freight_value'], ax=ax)
+#melihat korelasi antara price dan freight_value
+    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(24, 6)) #bikin kanvasnya dulu
+    colors = ["#BBF90F", "#E6E6FA", "#E6E6FA", "#E6E6FA", "#E6E6FA"]
+
+    sns.regplot(x=alldata_df['product_weight_g'], y=alldata_df['freight_value'])
+    ax.set_title('korelasi antara price dan freight_value', loc='center', fontsize=15)
+    ax.tick_params(axis='x', labelsize=12)
     st.pyplot(fig)
 
     # Membuat heatmap untuk matriks korelasi
     selected_columns = alldata_df[['freight_value','product_weight_g']]
+    selected_columns.head(15)
     correlation_mat = selected_columns.corr()
-    sns.heatmap(correlation_mat, annot=True, cmap='GnBu', fmt='.2f', linewidths=0.1)
-    st.pyplot()
+    # Membuat heatmap
+    fig, ax = plt.subplots()
+    sns.heatmap(correlation_mat, annot=True, cmap='GnBu', fmt='.2f', linewidths=0.1, ax=ax)
+    plt.title('Matriks Korelasi')
+
+    # Menampilkan visualisasi di Streamlit
+    st.pyplot(fig)
 
 # Tab "Persentase Tipe Pembayaran"
 elif selected_tab == "Persentase Tipe Pembayaran":
