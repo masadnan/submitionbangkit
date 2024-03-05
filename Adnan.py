@@ -56,16 +56,27 @@ if selected_tab == "Hubungan":
 elif selected_tab == "Persentase Tipe Pembayaran":
     st.subheader("Persentase Tipe Pembayaran")
 
-    # Menentukan persentase tipe payment yang digunakan
+#menentukan persentase tipe payment yang digunakan
+    count_payment_type_df = alldata_df.groupby("payment_type").order_id.count().sort_values(ascending=False).reset_index()
+
+    #membuat diagram lingkaran proporsi penggunaan tipe payment
     payment_count = alldata_df['payment_type'].value_counts()
-    plt.pie(
+    colors = sns.color_palette("deep", len(payment_count))
+    explode = (0.1, 0, 0, 0)
+
+# Membuat plot
+    fig, ax = plt.subplots()
+    ax.pie(
         x=payment_count,
         labels=payment_count.index,
         autopct='%1.1f%%',
-        colors=sns.color_palette("deep", len(payment_count)),
-        explode=(0.1, 0, 0, 0)
+        colors=colors,
+        explode=explode
     )
-    st.pyplot()
+    ax.set_title('Persentase Tipe Payment yang Digunakan')
+
+    # Menampilkan visualisasi di Streamlit
+    st.pyplot(fig)
 
 # Tab "Review Customer"
 elif selected_tab == "Review Customer":
